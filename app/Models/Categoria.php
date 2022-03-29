@@ -15,7 +15,6 @@ class Categoria extends Model
         'nombre',
         'descripcion',
         'slug',
-        'estado'
     ];
 
     /* Relacion uno a muchos */

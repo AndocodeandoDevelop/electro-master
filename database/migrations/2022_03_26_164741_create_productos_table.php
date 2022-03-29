@@ -25,7 +25,7 @@ return new class extends Migration
             $table->integer('cantidad');
             $table->string('nombre_img', 25);
             $table->string('ruta_img', 255);
-            $table->boolean('estado')->default(1);
+            //$table->boolean('estado')->default(1);
             $table->timestamps();
         });
     }

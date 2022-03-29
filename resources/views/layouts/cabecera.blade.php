@@ -56,13 +56,13 @@
     <div class="container">
         <div id="responsive-nav">
             <!-- Menu -->
-            <ul class="main-nav nav navbar-nav">
-                <li class="active"><a href="#">Inicio</a></li>
-                <li><a href="#">Categorias</a></li>
-                <li><a href="#">Administrador</a></li>
+            <ul class="main-nav nav navbar-nav" id="clasesMenuCabecera">
+                <li class="opcionMenu" id="categoriasAdminCabecera"><a href="{{route('categoria.admin.vista')}}">Administrar Categorias</a></li>
+                <li class="opcionMenu" id="productosAdminCabecera"><a href="{{route('producto.admin.vista')}}">Administrar Productos</a></li>
             </ul>
             <!-- /Menu -->
         </div>
     </div>
+
 </nav>
 <!-- /Barra de Navegacion -->

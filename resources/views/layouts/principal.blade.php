@@ -51,18 +51,15 @@
     </div>
     <!-- /Migas de Pan -->
 
-    <!-- SECTION -->
+    <!-- Seccion de Contenido -->
     <div class="section">
-        <!-- container -->
         <div class="container">
-            <!-- row -->
             <div class="row">
+                @yield('contenido')
             </div>
-            <!-- /row -->
         </div>
-        <!-- /container -->
     </div>
-    <!-- /SECTION -->
+    <!-- /Seccion de Contenido -->
 
     <!-- Boletin Informativo -->
     <div id="newsletter" class="section">
@@ -108,5 +105,11 @@
 <script src="/assets/plantilla/js/nouislider.min.js"></script>
 <script src="/assets/plantilla/js/jquery.zoom.min.js"></script>
 <script src="/assets/plantilla/js/main.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#opcionMenu').removeClass('active');
+        $('#inicioCabecera').addClass('active');
+    });
+</script>
 @yield('archivosJs')
 </html>

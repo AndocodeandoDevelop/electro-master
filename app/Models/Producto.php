@@ -17,11 +17,10 @@ class Producto extends Model
         'precio_compra',
         'precio_venta',
         'precio_oferta',
-        'categoria_id ',
+        'categoria_id',
         'cantidad',
-        'ruta',
-        'imagen',
-        'estado'
+        'nombre_img',
+        'ruta_img',
     ];
 
     /*Relacion uno a uno */
