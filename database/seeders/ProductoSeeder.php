@@ -16,15 +16,21 @@ class ProductoSeeder extends Seeder
      */
     public function run(){
         $carpeta = public_path('/assets/productos');
-        if (!file_exists($carpeta))
+        if(!file_exists($carpeta))
             mkdir($carpeta, 0777);
         else{
-            $productos = Producto::all();
-            foreach ($productos as $producto){
-                if(file_exists(public_path($producto->ruta_img))){
-                    unlink(public_path($producto->ruta_img));
+            if(!$dh = @opendir($carpeta)) return;
+            while (false !== ($current = readdir($dh))) {
+                if($current != '.' && $current != '..') {
+                    echo 'Se ha borrado el archivo '.$carpeta.'/'.$current.'<br/>';
+                    if (!@unlink($carpeta.'/'.$current))
+                        deleteDirectory($carpeta.'/'.$current);
                 }
             }
+            closedir($dh);
+            @rmdir($carpeta);
+
+            mkdir($carpeta, 0777);
         }
 
         foreach($this->productos as $producto) {
