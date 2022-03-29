@@ -5,13 +5,44 @@ namespace App\Http\Controllers;
 use App\Exports\ProductosExport;
 use App\Mail\SuscripcionMail;
 use App\Models\Producto;
+use App\Models\Suscrito;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
 use PDF;
 
 class ArchivosController extends Controller
 {
+
+    public function enviarCorreo(Request $datos){
+        if($datos->correo == null)
+            return $this->retornarMensaje('correoVacio', 'Por favor ingrese un correo');
+
+        $email = filter_var($datos->correo, FILTER_SANITIZE_EMAIL);
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL))
+            return $this->retornarMensaje('correoInvalido', 'El correo '.$datos->correo.' no es válido');
+
+        if(Suscrito::where('correo', $email)->first() != null)
+            return $this->retornarMensaje('correoExistente', 'El correo '.$datos->correo.' ya está suscrito');
+
+        Mail::to('esqueleto144@gmail.com')->send(new SuscripcionMail());
+
+        Suscrito::create($datos->all());
+        return $this->retornarMensaje('correoEnviado', 'Correo '. $datos->correo.' suscrito (este puede estar en su carpeta de Spam)');
+    }
+
+    /**
+     * Genera una variable de sesion con un mensaje y redirige a la vista en la que se encontraba
+     * @param $nombre
+     * @param $mensaje
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    function retornarMensaje($nombre, $mensaje){
+        Session::flash($nombre, $mensaje);
+        return redirect()->back();
+    }
+
     /**
      * Para el uso de PDF se usa DOM PDF de LARAVEL (composer require barryvdh/laravel-dompdf)
      * Mas Informacion en https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
@@ -22,7 +53,7 @@ class ArchivosController extends Controller
      * @return mixed
      */
     function generarPDF(){
-        $pdf = PDF::loadView('productos.pdfProductos', ['productos' => Producto::all()]);
+        $pdf = PDF::loadView('PDF.pdfProductos', ['productos' => Producto::all()]);
         $pdf->setPaper('A4', 'landscape'); //Hacer Horizontal la hoja (Comentar par ahacerla vertical)
         return $pdf;
     }
@@ -33,7 +64,7 @@ class ArchivosController extends Controller
      */
     public function verPDF(){
         $pdf = $this->generarPDF();
-        return $pdf->stream('Productos.pdf');
+        return $pdf->stream('Productos.PDF');
     }
 
     /**
@@ -42,7 +73,7 @@ class ArchivosController extends Controller
      */
     public function descargarPDF(){
         $pdf = $this->generarPDF();
-        return $pdf->download('Productos.pdf');
+        return $pdf->download('Productos.PDF');
     }
 
     /**

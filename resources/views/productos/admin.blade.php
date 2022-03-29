@@ -262,11 +262,7 @@
 @endsection
 
 @section('archivosJs')
-    <script src="/assets/js/datatables.min.js"></script>
-    <script src="/assets/js/sweetalert/sweetalert.min.js"></script>
-    <script src="/assets/js/sweetAlertGenerar.js"></script>
     <script src="/assets/js/productos/verificarForms.js"></script>
-    <script src="/assets/js/carateresValidacion.js"></script>
     <script>
         $(document).ready(function () {
             $('#opcionMenu').removeClass('active');

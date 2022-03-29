@@ -68,8 +68,9 @@
                 <div class="col-md-12">
                     <div class="newsletter">
                         <p>Registrate para el <strong>Boletin Informativo</strong></p>
-                        <form>
-                            <input class="input" type="email" placeholder="Ingresa tu correo">
+                        <form method="POST" action="{{route('archivos.correo')}}">
+                            @csrf
+                            <input class="input" type="text" placeholder="Ingresa tu correo" id="correo" name="correo">
                             <button class="newsletter-btn"><i class="fa fa-envelope"></i> Suscribirse</button>
                         </form>
                         <ul class="newsletter-follow">
@@ -105,7 +106,27 @@
 <script src="/assets/plantilla/js/nouislider.min.js"></script>
 <script src="/assets/plantilla/js/jquery.zoom.min.js"></script>
 <script src="/assets/plantilla/js/main.js"></script>
+<script src="/assets/js/datatables.min.js"></script>
+<script src="/assets/js/sweetalert/sweetalert.min.js"></script>
+<script src="/assets/js/sweetAlertGenerar.js"></script>
+<script src="/assets/js/carateresValidacion.js"></script>
 <script>
+    @if(Session::has('correoEnviado'))
+        generarAlertaDatos('Correo Suscrito', '{{Session::get('correoEnviado')}}', 'success', 0);
+        {{Session::forget('correoEnviado')}}
+    @endif
+    @if(Session::has('correoVacio'))
+        generarAlertaDatos('Correo Vacio', '{{Session::get('correoVacio')}}', 'warning', 0);
+        {{Session::forget('correoVacio')}}
+    @endif
+    @if(Session::has('correoInvalido'))
+        generarAlertaDatos('Correo Invalido', '{{Session::get('correoInvalido')}}', 'warning', 0);
+        {{Session::forget('correoInvalido')}}
+    @endif
+    @if(Session::has('correoExistente'))
+        generarAlertaDatos('Correo Ya Suscrito', '{{Session::get('correoExistente')}}', 'warning', 0);
+        {{Session::forget('correoExistente')}}
+    @endif
     $(document).ready(function () {
         $('#opcionMenu').removeClass('active');
         $('#inicioCabecera').addClass('active');

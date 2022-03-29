@@ -28,7 +28,6 @@ Route::get('/limpiarCache', function() {
     Artisan::call('route:clear');
     Artisan::call('view:clear');
     return "Cache Limpiado :D";
-    return redirect()->back();
 });
 
 /*
@@ -85,7 +84,8 @@ Route::get('/productos/eliminar/{id}', [ProductosController::class, 'eliminarPro
 |Aqui se encentran todas las rutas que son para generar un Correo, un PDF o un Excel
 |
 */
-Route::get('/enviarCorreo/{correo}', [ArchivosController::class, 'enviarCorreo'])->name('archivos.correo');
-Route::get('/verPDF/productos', [ArchivosController::class, 'verPDF'])->name('archivos.pdf.ver');
-Route::get('/descargarPDF/productos', [ArchivosController::class, 'descargarPDF'])->name('archivos.pdf.descargar');
+
+Route::post('/enviarCorreo', [ArchivosController::class, 'enviarCorreo'])->name('archivos.correo');
+Route::get('/verPDF/productos', [ArchivosController::class, 'verPDF'])->name('archivos.PDF.ver');
+Route::get('/descargarPDF/productos', [ArchivosController::class, 'descargarPDF'])->name('archivos.PDF.descargar');
 Route::get('/descargarExcel/productos', [ArchivosController::class, 'descargarExcel'])->name('archivos.excel.descargar');
